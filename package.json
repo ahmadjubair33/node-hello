@@ -9,6 +9,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnpapa/node-hello.git"
+    
   },
   "keywords": [],
   "author": "",
@@ -17,4 +18,7 @@
     "url": "https://github.com/johnpapa/node-hello/issues"
   },
   "homepage": "https://github.com/johnpapa/node-hello#readme"
+}
+{
+	"title": "nodejs is amazing"
 }
