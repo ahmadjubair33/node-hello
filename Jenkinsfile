@@ -6,7 +6,7 @@ pipeline{
      steps{
          sh 'npm install'
          sh 'npm pack'
-         sh "welcome"
+         sh "weleecome"
       }
     }
  }
