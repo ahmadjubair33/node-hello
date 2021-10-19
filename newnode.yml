@@ -1,0 +1,66 @@
+resources:
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/ahmadjubair33/node-hello.git
+    branch: main
+
+
+
+- name: node-hello
+  type: registry-image
+  source:
+    repository: node
+    tag: 13.10.1-stretch
+jobs:
+- name: test
+  plan:
+  - get: repo 
+  - get: node-hello
+    trigger: true
+  - task: install
+    image: node-hello
+    config:
+      inputs:
+      - name: repo
+      outputs:
+      - name: dependencies
+        path: repo/node_modules
+      platform: linux
+      run:
+        path: /bin/bash
+        args:
+          - -ec
+          - |
+            cd repo
+            npm install
+            npm pack
+            # npm start
+    on_failure:
+      - put: send-an-email
+        params:
+          subject_text: "error"
+          body_text: "hello your test is failed"
+    on_success:
+      - put: send-an-email
+        params:
+          subject_text: "succes"
+          body_text: "hello your test is success"
+        
+
+resources:
+  - name: send-an-email
+    type: email
+    source:
+     smtp:
+        host: smtp.example.com
+        port: "587" # this must be a string
+        username:
+        password: 
+      from: ahmadjubair878@gmail.com
+      to: ahmadjubair878@gmail.com
+resource_types: 
+  - name: email
+    type: docker-image
+    source:
+      repository: pcfseceng/email-resource
